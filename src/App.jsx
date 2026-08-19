@@ -156,7 +156,7 @@ export default function App() {
     setFormStatus('');
 
     try {
-      await fetch('https://script.google.com/macros/s/AKfycbxKLEy3O7PVz8HPVPxfyeRZMuVeVTwRwYHmacQ74LlcvzRdtAl9MUXRoabu5yyPJR4u/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycbyUD_MBYdjr0yPDr-KutZ9lzuWOC-SM32IxqkAotZqAxgNoBxV6BfC3e_yAPwnIfYI05A/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
