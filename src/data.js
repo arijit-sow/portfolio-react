@@ -4,8 +4,7 @@ export const portfolioData = {
     name: "Arijit",
     bioParagraph1: "I'm a Java backend developer passionate about building clean, performant APIs and scalable systems. I love turning complex problems into elegant solutions using Spring Boot, JPA, and cloud-ready architectures.",
     bioParagraph2: "When I'm not writing code, I'm exploring system design, reading about distributed systems, or contributing to open source projects.",
-    yearsExperience: "3+",
-    apisBuilt: "10+",
+    yearsExperience: "3",
     resumeUrl: "/resume/Arijit-Sow-Resume.pdf"
   },
   skills: [
