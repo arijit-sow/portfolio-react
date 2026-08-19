@@ -269,7 +269,7 @@ export default function App() {
               </div>
               <div className="stat">
                 <span className="stat-num">{about.apisBuilt}</span>
-                <span className="stat-label">APIs Built</span>
+                
               </div>
             </div>
             <div style={{ marginTop: '40px' }}>
