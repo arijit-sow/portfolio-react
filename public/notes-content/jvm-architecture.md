@@ -1,10 +1,11 @@
-## JDK, JRE, and JVM
+# JDK, JRE, and JVM
 
 - **JVM** (Java Virtual Machine) — executes bytecode.
 - **JRE** (Java Runtime Environment) — contains the JVM and the required libraries to run Java programs.
 - **JDK** (Java Development Kit) — contains the JRE plus the compiler and development tools.
 
 So:
+
 - **JDK** is needed to *develop* programs.
 - **JRE** is needed to *run* programs.
 - **JVM** does the actual work of execution.
@@ -161,6 +162,7 @@ The class loader reads the `.class` file (bytecode) and creates a corresponding 
 | **Custom Class Loader** | User-defined class loaders (e.g., used by frameworks like Tomcat, plugin systems) for special loading logic (like hot-reloading or isolation). |
 
 **Delegation Model (Parent-First):**
+
 When a class needs to be loaded, the request is passed **up** the hierarchy first — the Application loader asks the Extension loader, which asks the Bootstrap loader. Only if none of the parents can find the class does the current loader try to load it itself.
 
 ```mermaid
@@ -242,10 +244,12 @@ graph TD
 Once bytecode is loaded and memory is set up, the **Execution Engine** actually runs the program. It has three key parts:
 
 #### a) Interpreter
+
 - Reads bytecode line-by-line and executes it directly.
 - Fast to start, but slow for repeated execution since it re-interprets the same bytecode every single time.
 
 #### b) JIT (Just-In-Time) Compiler
+
 - Identifies **"hot" code** — methods/loops executed frequently.
 - Compiles that hot bytecode into native machine code **once**, then reuses the compiled version on future calls instead of re-interpreting it.
 - Modern JVMs (HotSpot) actually use **tiered compilation** with two internal JIT compilers:
@@ -253,6 +257,7 @@ Once bytecode is loaded and memory is set up, the **Execution Engine** actually 
   - **C2 (Server Compiler):** Applies aggressive, deep optimizations — used for code that's extremely hot, at the cost of longer compilation time.
 
 #### c) Garbage Collector (GC)
+
 - Automatically frees heap memory occupied by objects that are no longer reachable/referenced by the running program.
 - Covered in full detail in the next section.
 
@@ -292,25 +297,30 @@ graph TD
     style ObjD fill:#f88,stroke:#900
     style ObjE fill:#f88,stroke:#900
 ```
+
 *(Objects D and E have no path from any GC Root — they are garbage and will be collected.)*
 
 ### Core GC Algorithms
 
 1. **Mark and Sweep**
+
    - **Mark phase:** Traverse from GC Roots and mark every reachable object as "alive."
    - **Sweep phase:** Scan the entire heap and reclaim memory occupied by any unmarked (unreachable) object.
    - Downside: Leaves memory fragmented (free space scattered in small chunks).
 
 2. **Mark-Compact**
+
    - Same marking phase as above, but after sweeping, it also **compacts** — shifts all live objects together to one end of memory, eliminating fragmentation.
    - Slightly slower than plain Mark-Sweep due to the extra compaction step, but avoids fragmentation issues.
 
 3. **Copying Algorithm**
+
    - Divides memory into two equal halves. Live objects from the active half are copied into the other half, and the original half is then entirely cleared at once.
    - Very fast for areas with a high death rate (like Eden space), since it only touches *live* objects, not the garbage.
    - Downside: Wastes 50% of memory space by design (used in Young Generation, not Old Generation, for this reason).
 
 4. **Generational Collection (the strategy Java actually uses)**
+
    - Based on the **"weak generational hypothesis"**: *most objects die young.*
    - The heap is split into Young Generation (Eden + Survivor spaces) and Old Generation.
    - New objects go into Eden. A **Minor GC** cleans Eden + Survivor spaces frequently (fast, using the Copying algorithm) — objects that survive multiple Minor GCs get **promoted** to the Old Generation.
@@ -390,17 +400,21 @@ sequenceDiagram
 ## Key Architectural Features (Summary)
 
 **Platform Independence**
+
 - Java code is compiled into bytecode, which runs on any system having the JVM.
 - It follows the **"Write Once, Run Anywhere (WORA)"** capability.
 
 **Robust and Secure**
+
 - Strong memory management, exception handling, and automatic garbage collection make Java reliable and secure.
 - Comes with a built-in security manager and bytecode verifier.
 
 **Multithreading Support**
+
 - Java allows execution of multiple tasks simultaneously, improving performance in games, animations, and real-time systems.
 
 **High Performance**
+
 - Java uses the JIT compiler to convert bytecode to native code at runtime for faster execution.
 
 ---
@@ -439,6 +453,7 @@ Tokens are the smallest elements of a program that are meaningful to the compile
 - Java keywords cannot be used as identifiers.
 
 **Rules to define an identifier:**
+
 - Allowed characters: alphanumeric characters `[A-Z]`, `[a-z]`, `[0-9]`, `$` (dollar sign), and `_` (underscore).
 - Special characters other than `$` and `_` are not allowed.
 - Identifiers should not start with a digit.
@@ -449,61 +464,81 @@ Tokens are the smallest elements of a program that are meaningful to the compile
 ## Interview & Tricky Questions
 
 1. **Can JRE run without JVM?**
+
    No. JVM is the core component inside JRE — without it, the JRE cannot execute any bytecode.
 
 2. **If JDK contains JRE, why do we need JRE separately?**
+
    A JRE-only installation is meant for end users who just need to *run* Java applications, without the extra development tools (compiler, debugger) bundled in the JDK.
 
 3. **Does the JIT compiler replace `javac`?**
+
    No. `javac` compiles source code to bytecode once, at compile time. The JIT compiler works at runtime, converting already-generated bytecode into native machine code for performance — they operate at different stages.
 
 4. **Why is bytecode considered "platform independent" but the JVM is "platform dependent"?**
+
    Bytecode is a universal intermediate format that doesn't change across systems. The JVM, however, is compiled separately for each OS/hardware combination to translate that same bytecode into OS-specific machine code.
 
 5. **Is bytecode the same as machine code?**
+
    No. Bytecode is an intermediate representation understood only by the JVM. Machine code is the final, hardware-specific code that the CPU actually executes.
 
 6. **What's the difference between a keyword and an identifier?**
+
    Keywords are reserved words with fixed meaning in Java syntax (e.g., `class`, `static`), while identifiers are user-defined names for variables, methods, or classes — and identifiers can never reuse a keyword.
 
 7. **Can an identifier contain a space or start with a number?**
+
    No. Identifiers cannot contain spaces or special characters (other than `$` and `_`), and they cannot start with a digit — `2value` is invalid, but `value2` is valid.
 
 8. **Why does Java use both a compiler and an interpreter-like JVM instead of just one?**
+
    This hybrid model gives Java both portability (via compiled bytecode) and adaptability (via JVM execution), plus the JIT compiler adds near-native performance where it matters most.
 
 9. **What are the three phases of class loading?**
+
    Loading (reading the `.class` file and creating a `Class` object), Linking (Verification → Preparation → Resolution), and Initialization (assigning real values to static fields and running static blocks).
 
 10. **Why does Java use a parent-delegation model for class loading?**
+
     To ensure core Java classes are always loaded by the trusted Bootstrap loader first, preventing malicious or duplicate custom classes (like a fake `java.lang.String`) from silently overriding trusted JDK classes.
 
 11. **What happens if you create a `java.lang.String` class yourself?**
+
     Due to parent delegation, when your code references `String`, the request goes up to the Bootstrap loader first, which finds and loads the real `java.lang.String` before your custom one is ever considered — so your custom class is effectively ignored for that reference.
 
 12. **What is the difference between Minor GC, Major GC, and Full GC?**
+
     Minor GC cleans only the Young Generation (fast, frequent). Major GC cleans only the Old Generation. Full GC cleans the entire heap (Young + Old + Metaspace) and causes the longest pause.
 
 13. **Why does Java use a Copying algorithm for the Young Generation but Mark-Sweep-Compact for the Old Generation?**
+
     Most objects in the Young Generation die quickly (weak generational hypothesis), so a fast Copying algorithm that only touches survivors is efficient. The Old Generation has mostly long-lived objects, so Mark-Sweep-Compact (which avoids the 50% memory waste of Copying) is more suitable there.
 
 14. **What is a "stop-the-world" pause?**
+
     A pause where all application threads are frozen so the garbage collector can safely trace and reclaim memory without objects being mutated mid-collection.
 
 15. **Why was PermGen removed and replaced with Metaspace in Java 8?**
+
     PermGen had a fixed maximum size, which frequently caused `OutOfMemoryError: PermGen space` in applications that loaded many classes dynamically (e.g., app servers). Metaspace uses native (off-heap) memory that can grow dynamically, largely eliminating that problem.
 
 16. **What is the default garbage collector in modern Java versions?**
+
     **G1 (Garbage First) GC** has been the default since Java 9, balancing throughput and pause times by collecting heap regions with the most garbage first.
 
 17. **Can an object be garbage collected even if a variable technically still points to it?**
+
     Yes — if that variable itself is unreachable from any GC Root (e.g., it belongs to a method that has already returned, or the enclosing object holding it is itself unreachable), the whole chain is eligible for collection.
 
 18. **What triggers a Minor GC?**
+
     When the Eden space becomes full and cannot accommodate a new object allocation.
 
 19. **What is Tiered Compilation in the JVM?**
+
     A strategy where the JVM starts by interpreting bytecode, uses the fast/lightweight C1 compiler for moderately hot code, and escalates to the aggressively optimizing C2 compiler for the hottest code paths — balancing startup speed and peak performance.
 
 20. **Does every `.java` file get its own JVM process when run?**
+
     No — a single JVM process is launched per **program execution** (via the `java` command), and it can load and run many classes within that one process/instance.

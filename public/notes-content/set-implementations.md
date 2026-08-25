@@ -8,20 +8,22 @@
 ## Where `Set` Fits
 
 ```
-Iterable<E>
-    │
-Collection<E>
-    │
-  Set<E>                           ← interface: NO duplicates, models a mathematical set
-    │
-AbstractSet<E>                     ← abstract skeletal implementation
-    │
- ┌──────────────┬───────────────────┬─────────────────┐
- │              │                    │                 │
+            Iterable<E>
+                │
+            Collection<E>
+                │
+            Set<E>         ← interface: NO duplicates, models a mathematical set
+                │
+            AbstractSet<E>     ← abstract skeletal implementation
+                │
+ ┌──────────────┬───────────────────┬──────────────────┐
+ │              │                   │                  │
 HashSet     LinkedHashSet         TreeSet           EnumSet
- (extends AbstractSet)                │        (implements SortedSet, NavigableSet)
-                                                (abstract, specialized for enums)
-
+                                    │               (abstract,
+                                (implements         specialized for enums)
+                                SortedSet,  
+                                NavigableSet)                        
+                                
 ```
 
 `Set<E>` is a sub-interface of `Collection<E>` that **models the mathematical concept of a set**:

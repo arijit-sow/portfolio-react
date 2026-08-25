@@ -1,8 +1,9 @@
 import { useState, useEffect, Children } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import mermaid from 'mermaid';
+import { noteCategories } from './notesData.js';
 
 function MermaidDiagram({ chart }) {
   const [svg, setSvg] = useState('');
@@ -46,6 +47,10 @@ function MermaidDiagram({ chart }) {
 export default function NoteViewer() {
   const { topicId } = useParams();
   const [note, setNote] = useState({ topicId: null, content: '', loading: true });
+  const notes = noteCategories.flatMap((group) => group.notes);
+  const currentIndex = notes.findIndex((item) => item.id === (topicId || 'jvm-architecture'));
+  const previousNote = currentIndex > 0 ? notes[currentIndex - 1] : null;
+  const nextNote = currentIndex >= 0 && currentIndex < notes.length - 1 ? notes[currentIndex + 1] : null;
 
   useEffect(() => {
     const fileName = topicId ? `${topicId}.md` : 'jvm-architecture.md';
@@ -110,6 +115,23 @@ export default function NoteViewer() {
       >
         {note.content}
       </ReactMarkdown>
+
+      {(previousNote || nextNote) && (
+        <nav className="notes-pagination" aria-label="Note navigation">
+          {previousNote ? (
+            <Link className="notes-pagination-link previous" to={`/notes/${previousNote.id}`}>
+              <span className="notes-pagination-direction">Previous note</span>
+              <span className="notes-pagination-title">← {previousNote.title}</span>
+            </Link>
+          ) : <span />}
+          {nextNote ? (
+            <Link className="notes-pagination-link next" to={`/notes/${nextNote.id}`}>
+              <span className="notes-pagination-direction">Next note</span>
+              <span className="notes-pagination-title">{nextNote.title} →</span>
+            </Link>
+          ) : <span />}
+        </nav>
+      )}
     </article>
   );
 }
