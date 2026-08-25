@@ -6,22 +6,22 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg:       #0a0a0a;
-    --bg2:      #111111;
-    --bg3:      #1a1a1a;
-    --border:   #222222;
-    --accent:   #c8f56a;
-    --accent2:  #a8e050;
-    --text:     #f0ece4;
-    --muted:    #888580;
-    --card-bg:  #141414;
+    --bg:       #0b0d15;
+    --bg2:      #101522;
+    --bg3:      #151b2a;
+    --border:   rgba(255, 255, 255, 0.08);
+    --accent:   #c5d4ed;
+    --accent2:  #e0e9f8;
+    --text:     #eceff4;
+    --muted:    #aebbd0;
+    --card-bg:  rgba(12, 15, 25, 0.72);
     --font-display: 'Syne', sans-serif;
     --font-body:    'DM Sans', sans-serif;
     --radius:   14px;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     /* skill card shadow variables (default: cool blue/teal hue for dark theme) */
-    --skill-shadow: 0 6px 18px rgba(10,130,160,0.06);
-    --skill-shadow-hover: 0 18px 30px rgba(10,130,160,0.12);
+    --skill-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    --skill-shadow-hover: 0 18px 34px rgba(0, 0, 0, 0.3);
 }
 
 /* ── LIGHT THEME VARIABLES (Custom Palette) ── */
@@ -39,6 +39,192 @@ body.light-theme {
     --skill-shadow-hover: 0 18px 30px rgba(11,163,127,0.10);
 }
 
+/* ── TECHNICAL NOTES ── */
+.notes-layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.notes-sidebar {
+    width: 280px;
+    flex: 0 0 280px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 20px;
+    border-right: 1px solid var(--border);
+    background: var(--bg2);
+}
+
+.notes-sidebar h1 {
+    margin: 28px 0;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 1.15;
+}
+
+.notes-category h2 {
+    margin: 24px 0 8px;
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.notes-category ul {
+    display: grid;
+    gap: 4px;
+    padding: 0;
+    list-style: none;
+}
+
+.notes-nav-link,
+.notes-back-link {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 9px 10px;
+    transition: color var(--transition), background-color var(--transition);
+}
+
+.notes-nav-link:hover,
+.notes-nav-link:focus-visible,
+.notes-back-link:hover,
+.notes-back-link:focus-visible {
+    color: var(--text);
+    background: var(--bg3);
+}
+
+.notes-content {
+    flex: 1;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+}
+
+.notes-markdown {
+    color: var(--text);
+    line-height: 1.75;
+}
+
+.notes-markdown-h1,
+.notes-markdown-h2 {
+    color: var(--text);
+    font-family: var(--font-display);
+    line-height: 1.2;
+}
+
+.notes-markdown-h1 {
+    margin: 0 0 28px;
+    font-size: clamp(30px, 5vw, 48px);
+}
+
+.notes-markdown-h2 {
+    margin: 36px 0 14px;
+    font-size: clamp(22px, 3vw, 32px);
+}
+
+.notes-markdown-p {
+    margin: 0 0 18px;
+    color: var(--muted);
+}
+
+.notes-table-wrapper {
+    overflow-x: auto;
+    margin: 24px 0;
+}
+
+.notes-markdown-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    color: var(--text);
+}
+
+.notes-markdown-th,
+.notes-markdown-td {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    text-align: left;
+}
+
+.notes-markdown-th {
+    background: var(--bg3);
+    color: var(--text);
+}
+
+.notes-markdown-code,
+.notes-markdown-pre {
+    background: var(--bg3);
+    color: var(--accent);
+}
+
+.notes-markdown-code {
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+.notes-markdown-pre {
+    overflow-x: auto;
+    margin: 20px 0;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.notes-markdown-pre .notes-markdown-code {
+    padding: 0;
+}
+
+.notes-mermaid {
+    margin: 24px 0;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    background: var(--bg3);
+    text-align: center;
+}
+
+.notes-mermaid svg {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
+
+.notes-mermaid-error {
+    margin: 24px 0;
+    border: 1px solid #b44;
+    border-radius: 8px;
+    padding: 16px;
+    color: #f99;
+    background: rgba(180, 68, 68, 0.12);
+}
+
+@media (max-width: 768px) {
+    .notes-layout {
+        display: block;
+    }
+
+    .notes-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .notes-content {
+        max-width: none;
+        padding: 28px 20px;
+    }
+}
+
 /* ── LIGHT THEME OVERRIDES ── */
 body.light-theme .nav {
     background: rgba(213, 231, 181, 0.95);
@@ -47,7 +233,7 @@ body.light-theme .nav {
 
 body.light-theme .section,
 body.light-theme .hero {
-    background-color: var(--bg);
+    background-color: transparent;
 }
 
 /* ── THEME BUTTON STYLING ── */
@@ -89,12 +275,18 @@ body {
     align-items: center;
     padding: 12px 4%;
     box-sizing: border-box;
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(11, 13, 21, 0.78);
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
     z-index: 100;
     border-bottom: 1px solid var(--border);
+}
+
+.section,
+.footer {
+    position: relative;
+    z-index: 1;
 }
 .mobile-menu-btn {
     display: none; 
@@ -302,7 +494,7 @@ body {
     max-width: 600px;
     line-height: 1.6;
     font-size: clamp(14px, 2vw, 16px);
-    color: #a0a0a0;
+    color: var(--muted);
     margin-bottom: 16px;
     text-align: justify;
 }
@@ -353,7 +545,7 @@ body {
 }
 
 .skill-group:hover {
-    border-color: #333;
+    border-color: rgba(190, 210, 245, 0.25);
     transform: translateY(-6px);
     box-shadow: var(--skill-shadow-hover);
 }
@@ -437,7 +629,7 @@ body {
 }
 
 .project-card:hover {
-    border-color: #333;
+    border-color: rgba(190, 210, 245, 0.25);
     transform: translateY(-6px);
     box-shadow: var(--skill-shadow-hover);
 }
@@ -563,7 +755,7 @@ body {
 
 .education-card:hover {
     transform: translateY(-6px);
-    border-color: #333;
+    border-color: rgba(190, 210, 245, 0.25);
     box-shadow: var(--skill-shadow-hover);
 }
 
@@ -858,7 +1050,42 @@ body {
     visibility: visible;
 }
 
-/* ── CIRCUIT BACKGROUND (decorative) ── */
+/* ── PARTICLE BACKGROUND ── */
+.particle-bg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.gradient-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 70% 30%, rgba(20, 30, 55, 0.25) 0%, transparent 70%),
+        radial-gradient(circle at 20% 80%, rgba(10, 15, 30, 0.5) 0%, transparent 60%);
+}
+
+body.light-theme .particle-bg,
+body.light-theme .gradient-overlay {
+    display: none;
+}
+
+body.light-theme .skill-group,
+body.light-theme .project-card,
+body.light-theme .education-card {
+    background: rgba(255, 255, 255, 0.76);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 18px 35px rgba(40, 90, 100, 0.1);
+}
+
+/* ── LEGACY CIRCUIT BACKGROUND ── */
 .circuit-bg {
     position: fixed;
     top: 0;
@@ -866,10 +1093,40 @@ body {
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
     opacity: 0.12;
+    overflow: hidden;
 }
 .circuit-bg svg { width: 100%; height: 100%; display: block; }
+
+body.light-theme .circuit-bg {
+    opacity: 0.3;
+}
+
+body.light-theme .circuit-bg::before,
+body.light-theme .circuit-bg::after {
+    content: "";
+    position: absolute;
+    width: min(42vw, 520px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(12px);
+    opacity: 0.5;
+    animation: light-orb 12s ease-in-out infinite alternate;
+}
+
+body.light-theme .circuit-bg::before {
+    top: 8%;
+    left: 8%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.7), rgba(147, 230, 193, 0) 68%);
+}
+
+body.light-theme .circuit-bg::after {
+    right: 4%;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(11, 163, 127, 0.22), rgba(11, 163, 127, 0) 68%);
+    animation-delay: -6s;
+}
 
 .circuit-line {
     stroke: var(--circuit-line, rgba(255,255,255,0.06));
@@ -892,6 +1149,11 @@ body {
     to { stroke-dashoffset: -128; }
 }
 
+@keyframes light-orb {
+    from { transform: translate3d(-3%, -2%, 0) scale(0.92); }
+    to { transform: translate3d(5%, 4%, 0) scale(1.08); }
+}
+
 /* theme-aware circuit color variables */
 :root {
     --circuit-line: rgba(255,255,255,0.04);
@@ -909,4 +1171,6 @@ body.light-theme {
 @media (prefers-reduced-motion: reduce) {
     .circuit-flow { animation: none; opacity: 1; filter: none; }
     .circuit-bg { opacity: 0.06; }
+    body.light-theme .circuit-bg::before,
+    body.light-theme .circuit-bg::after { animation: none; }
 }
