@@ -4,7 +4,6 @@ const noteCategories = [
   {
     category: "Core Java",
     notes: [
-      { id: "intro", title: "Java Notes Introduction" },
       { id: "java-introduction", title: "Java Introduction" },
       { id: "jvm-architecture", title: "JVM Architecture & Memory" },
       { id: "java-data-types", title: "Java Data Types & Variables" },

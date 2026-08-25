@@ -7,19 +7,20 @@
 ## Where `List` Fits
 
 ```
-Iterable<E>
-    │
-Collection<E>
-    │
-  List<E>                          ← interface: ordered, allows duplicates, index-based
-    │
-AbstractList<E>                    ← abstract skeletal implementation
-    │
- ┌──────────────┬───────────────┬────────────────┐
+            Iterable<E>
+                │
+            Collection<E>
+                │
+            List<E>             ← interface: ordered, allows duplicates, index-based
+                │
+            AbstractList<E>     ← abstract skeletal implementation
+                │
+ ┌──────────────┬────────────────┬────────────────┐
  │              │                │                │
 ArrayList   LinkedList         Vector          CopyOnWriteArrayList
-                (also Deque)      │              (java.util.concurrent)
-                                Stack
+            (also Deque)         │             (java.util.concurrent)
+                               Stack
+
 ```
 
 `List<E>` is a **sub-interface of `Collection<E>`** that represents an **ordered collection** (a sequence) which:
