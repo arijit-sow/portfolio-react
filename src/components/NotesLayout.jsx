@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { noteCategories } from './notesData.js';
 
 export default function NotesLayout() {
+  const location = useLocation();
   const [isTopicsOpen, setIsTopicsOpen] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(280);
   const [isResizing, setIsResizing] = useState(false);
   const notesLayoutRef = useRef(null);
+  const notesSidebarRef = useRef(null);
 
   const closeTopics = () => setIsTopicsOpen(false);
 
@@ -78,6 +80,30 @@ export default function NotesLayout() {
     };
   }, [isResizing, sidebarWidth]);
 
+  useEffect(() => {
+    if (!isTopicsOpen) return undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      const sidebar = notesSidebarRef.current;
+      if (!sidebar) return;
+
+      const activeLink = notesSidebarRef.current?.querySelector('.notes-nav-link.active')
+        || notesSidebarRef.current?.querySelector('a[href="/notes/jvm-architecture"]');
+      if (!activeLink) return;
+
+      const sidebarRect = sidebar.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      const targetTop = sidebar.scrollTop
+        + linkRect.top
+        - sidebarRect.top
+        - (sidebar.clientHeight - linkRect.height) / 2;
+
+      sidebar.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+    }, 350);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [isTopicsOpen, location.pathname]);
+
   return (
     <div
       ref={notesLayoutRef}
@@ -92,7 +118,10 @@ export default function NotesLayout() {
           aria-label="Close topics panel"
         />
       )}
-      <aside className={`notes-sidebar ${isTopicsOpen ? 'is-open' : 'is-collapsed'}`}>
+      <aside
+        ref={notesSidebarRef}
+        className={`notes-sidebar ${isTopicsOpen ? 'is-open' : 'is-collapsed'}`}
+      >
         <div className="notes-sidebar-header">
           <div>
             <Link to="/" className="notes-back-link">&larr; Back to Portfolio</Link>
