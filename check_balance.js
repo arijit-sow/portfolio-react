@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'node:fs';
+import process from 'node:process';
 const s = fs.readFileSync('E:\\portfolio_React\\my-portfolio\\src\\App.jsx', 'utf8');
 const stack = [];
 const pairs = {')':'(', '}':'{', ']':'['};

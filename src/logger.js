@@ -19,7 +19,6 @@ async function sendToServer(payload) {
     }
   } catch (e) {
     // swallow - logging must not crash the app
-    // eslint-disable-next-line no-console
     console.warn('Logger failed to send log', e);
   }
 }
@@ -32,25 +31,21 @@ function format(level, args) {
 
 const logger = {
   info: (...args) => {
-    // eslint-disable-next-line no-console
     console.info('[INFO]', ...args);
     const payload = format('info', args);
     sendToServer(payload);
   },
   warn: (...args) => {
-    // eslint-disable-next-line no-console
     console.warn('[WARN]', ...args);
     const payload = format('warn', args);
     sendToServer(payload);
   },
   error: (...args) => {
-    // eslint-disable-next-line no-console
     console.error('[ERROR]', ...args);
     const payload = format('error', args);
     sendToServer(payload);
   },
   debug: (...args) => {
-    // eslint-disable-next-line no-console
     console.debug('[DEBUG]', ...args);
     const payload = format('debug', args);
     sendToServer(payload);

@@ -1,10 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { portfolioData } from './data.js';
 import profilePic from './assets/profile.png';
 import logger from './logger.js';
+import NotesLayout from './components/NotesLayout.jsx';
+import NoteViewer from './components/NoteViewer.jsx';
 
-export default function App() {
+function Home() {
+  const particleCanvasRef = useRef(null);
+
   // ── 1. THEME STATE & PERSISTENCE ──
   const [theme, setTheme] = useState(() => {
     try {
@@ -25,6 +30,161 @@ export default function App() {
     } catch (e) {
       logger.warn('localStorage unavailable', { error: String(e) });
     }
+  }, [theme]);
+
+  useEffect(() => {
+    if (theme === 'light') return undefined;
+
+    const canvas = particleCanvasRef.current;
+    if (!canvas) return undefined;
+
+    const context = canvas.getContext('2d');
+    if (!context) return undefined;
+
+    const particleCount = 130;
+    const maxSpeed = 0.45;
+    const connectionDistance = 130;
+    const mouseRadius = 200;
+    const edgeBump = 20;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let animationFrame;
+    let mouseX = 0;
+    let mouseY = 0;
+    let mouseInfluence = 0;
+    const isLightTheme = theme === 'light';
+
+    const resize = () => {
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * pixelRatio;
+      canvas.height = height * pixelRatio;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * maxSpeed * 2;
+        this.vy = (Math.random() - 0.5) * maxSpeed * 2;
+        this.radius = Math.random() * 3.5 + 1.8;
+        this.hue = isLightTheme ? 205 + Math.random() * 45 : 220 + Math.random() * 30;
+        this.saturation = isLightTheme ? 55 + Math.random() * 30 : 50 + Math.random() * 40;
+        this.lightness = isLightTheme ? 32 + Math.random() * 24 : 45 + Math.random() * 30;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (mouseInfluence > 0.01) {
+          const dx = this.x - mouseX;
+          const dy = this.y - mouseY;
+          const distance = Math.hypot(dx, dy);
+          if (distance < mouseRadius && distance > 0.1) {
+            const force = (1 - distance / mouseRadius) * 0.04 * mouseInfluence;
+            this.vx += (dx / distance) * force * 0.6;
+            this.vy += (dy / distance) * force * 0.6;
+          }
+        }
+
+        if (this.x < -edgeBump) this.x = width + edgeBump;
+        if (this.x > width + edgeBump) this.x = -edgeBump;
+        if (this.y < -edgeBump) this.y = height + edgeBump;
+        if (this.y > height + edgeBump) this.y = -edgeBump;
+
+        const speed = Math.hypot(this.vx, this.vy);
+        if (speed > maxSpeed) {
+          this.vx = (this.vx / speed) * maxSpeed;
+          this.vy = (this.vy / speed) * maxSpeed;
+        }
+      }
+    }
+
+    resize();
+    const particles = Array.from({ length: particleCount }, () => new Particle());
+
+    const draw = () => {
+      context.clearRect(0, 0, width, height);
+      context.shadowBlur = 0;
+
+      for (let index = 0; index < particles.length; index += 1) {
+        for (let nextIndex = index + 1; nextIndex < particles.length; nextIndex += 1) {
+          const first = particles[index];
+          const second = particles[nextIndex];
+          const distance = Math.hypot(first.x - second.x, first.y - second.y);
+
+          if (distance < connectionDistance) {
+            const alpha = (1 - distance / connectionDistance) * 0.3;
+            context.strokeStyle = isLightTheme
+              ? `rgba(38, 85, 145, ${alpha * 1.2})`
+              : `rgba(180, 210, 255, ${alpha})`;
+            context.lineWidth = 0.6 + (1 - distance / connectionDistance) * 1.2;
+            context.beginPath();
+            context.moveTo(first.x, first.y);
+            context.lineTo(second.x, second.y);
+            context.stroke();
+          }
+        }
+      }
+
+      for (const particle of particles) {
+        context.beginPath();
+        context.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        context.fillStyle = `hsl(${particle.hue}, ${particle.saturation}%, ${particle.lightness}%)`;
+        context.shadowColor = isLightTheme
+          ? 'rgba(30, 90, 160, 0.18)'
+          : 'rgba(130, 170, 255, 0.25)';
+        context.shadowBlur = isLightTheme ? 14 : 20;
+        context.fill();
+
+        if (particle.radius > 2.8) {
+          context.beginPath();
+          context.arc(particle.x, particle.y, particle.radius * 0.3, 0, Math.PI * 2);
+          context.fillStyle = isLightTheme
+            ? 'rgba(255, 255, 255, 0.65)'
+            : 'rgba(255, 255, 255, 0.2)';
+          context.shadowColor = isLightTheme
+            ? 'rgba(75, 130, 200, 0.28)'
+            : 'rgba(200, 220, 255, 0.4)';
+          context.shadowBlur = 10;
+          context.fill();
+        }
+      }
+      context.shadowBlur = 0;
+    };
+
+    const animate = () => {
+      particles.forEach((particle) => particle.update());
+      draw();
+      animationFrame = window.requestAnimationFrame(animate);
+    };
+
+    const handleMouseMove = (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      mouseInfluence = 1;
+    };
+
+    const handleMouseLeave = () => {
+      mouseInfluence = 0;
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+    animate();
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+    };
   }, [theme]);
 
   const toggleTheme = () => {
@@ -190,21 +350,8 @@ export default function App() {
 
   return (
     <div>
-      <div className="circuit-bg" aria-hidden="true">
-          <svg viewBox="0 0 1200 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" role="presentation">
-            {/* faint static circuit lines */}
-            <path className="circuit-line" d="M40 120 H400 V220 H760 V120 H1160" />
-            <path className="circuit-line" d="M120 300 H500 V420 H900" />
-            <path className="circuit-line" d="M60 480 H1160" />
-            <path className="circuit-line" d="M220 40 V160 H320 V260" />
-
-            {/* moving electric flow (same paths, animated dash) */}
-            <path className="circuit-flow" d="M40 120 H400 V220 H760 V120 H1160" />
-            <path className="circuit-flow" d="M120 300 H500 V420 H900" />
-            <path className="circuit-flow" d="M60 480 H1160" />
-            <path className="circuit-flow" d="M220 40 V160 H320 V260" />
-          </svg>
-        </div>
+      <canvas ref={particleCanvasRef} className="particle-bg" aria-hidden="true" />
+      <div className="gradient-overlay" aria-hidden="true" />
       {/* ── NAVIGATION ── */}
       <nav className="nav">
         <span className="nav-logo">arijit.</span>
@@ -223,6 +370,7 @@ export default function App() {
           <li><a href="#projects" onClick={() => setIsMobileMenuOpen(false)}>Projects</a></li>
           <li><a href="#education" onClick={() => setIsMobileMenuOpen(false)}>Education</a></li>
           <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a></li>
+          <li><Link to="/notes" onClick={() => setIsMobileMenuOpen(false)}>Notes</Link></li>
           <li>
             <button onClick={toggleTheme} className="theme-btn" aria-label="Toggle theme">
               {theme === 'light' ? '🌙' : '☀️'}
@@ -541,5 +689,19 @@ export default function App() {
         ↑
       </button>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/notes" element={<NotesLayout />}>
+          <Route index element={<NoteViewer />} />
+          <Route path=":topicId" element={<NoteViewer />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
