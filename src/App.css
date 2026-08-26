@@ -153,7 +153,7 @@ body.light-theme {
 .notes-topic-drawer {
     overflow: hidden;
     opacity: 1;
-    max-height: 1800px;
+    max-height: 5000px;
     transition: max-height var(--transition), opacity var(--transition);
 }
 
@@ -258,6 +258,19 @@ body.light-theme {
 .notes-markdown {
     color: var(--text);
     line-height: 1.75;
+}
+
+.notes-markdown p,
+.notes-markdown li,
+.notes-markdown td {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+}
+
+.notes-markdown pre,
+.notes-markdown code {
+    text-align: left;
 }
 
 .notes-markdown-h1,
@@ -524,7 +537,7 @@ body.light-theme {
     }
 
     .notes-topic-drawer {
-        max-height: 2200px;
+        max-height: 5000px;
         margin-top: 20px;
         transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity var(--transition);
     }

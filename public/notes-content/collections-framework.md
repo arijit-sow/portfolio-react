@@ -1,7 +1,6 @@
 # Java Collections Framework — Overview & Hierarchy
 
 > **Topic:** Collections Framework in Java
-> **Level:** Beginner → Advanced (Interview Ready)
 
 ---
 
@@ -38,9 +37,9 @@ This is the single most important thing to internalize:
                           │
                      Collection<T>
           ┌───────────────┼────────────────┐
-          │                │                │
+          │               │                │
         List<T>          Set<T>          Queue<T>
-          │                │                │
+          │                │               │
    ArrayList          HashSet          LinkedList
    LinkedList          LinkedHashSet   PriorityQueue
    Vector              TreeSet (SortedSet, NavigableSet)   ArrayDeque (Deque)
@@ -49,7 +48,7 @@ This is the single most important thing to internalize:
 
                         Map<K,V>          ← separate hierarchy, NOT part of Collection
           ┌───────────────┼────────────────┐
-          │                │                │
+          │               │                │
       HashMap        LinkedHashMap      TreeMap (SortedMap, NavigableMap)
           │
       Hashtable, ConcurrentHashMap (thread-safe variants)

@@ -22,8 +22,34 @@ export const noteCategories = [
       { id: "map-implementations", title: "Map Implementations" },
       { id: "queue-implementations", title: "Queue Implementations" },
       { id: "comparator-vs-comparable", title: "Comparator vs Comparable" },
-      { id: "hashing-and-hashcode", title: "Hashing & HashCode" },
       { id: "concurrent-collections", title: "Concurrent Collections" }
+    ]
+  },
+  {
+    category: "Multithreading & Concurrency",
+    notes: [
+      { id: "threading-basics", title: "Threading Basics" },
+      { id: "synchronization", title: "Synchronization" },
+      { id: "locks-and-latches", title: "Locks & Latches" },
+      { id: "executors-framework", title: "Executors Framework" },
+      { id: "virtual-threading", title: "Virtual Threading" }
+    ]
+  },
+  {
+    category: "Exception Handling & Logging",
+    notes: [
+      { id: "exception-handling", title: "Exception Handling" },
+      { id: "logging-frameworks", title: "Logging Frameworks" }
+    ]
+  },
+  {
+    category: "Java version Features",
+    notes: [
+      { id: "java-8-features", title: "Java 8 Features" },
+      { id: "java-9-modules", title: "Java 9 Modules" },
+      { id: "java-11-lts", title: "Java 11 LTS" },
+      { id: "java-17-features", title: "Java 17 Features" },
+      { id: "java-21-features", title: "Java 21 Features" }
     ]
   },
   {
