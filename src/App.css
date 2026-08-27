@@ -692,6 +692,10 @@ body.light-theme {
         box-shadow: none;
     }
 
+    .notes-sidebar.is-collapsed .notes-sidebar-header {
+        justify-content: flex-end;
+    }
+
     .notes-sidebar.is-collapsed .notes-sidebar-header > div {
         width: 0;
         opacity: 0;
