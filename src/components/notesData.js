@@ -1,84 +1,100 @@
+const note = (id, title, category) => ({
+  id,
+  title,
+  file: `${category}/${id}.md`
+});
+
 export const noteCategories = [
   {
-    category: "Core Java",
+    category: 'Core Java',
     notes: [
-      { id: "java-introduction", title: "Java Introduction" },
-      { id: "jvm-architecture", title: "JVM Architecture & Memory" },
-      { id: "java-data-types", title: "Java Data Types & Variables" },
-      { id: "java-control-flow", title: "Control Flow & Loops" },
-      { id: "classes-and-objects", title: "Classes and Objects" },
-      { id: "interfaces-and-abstract-classes", title: "Interfaces and Abstract Classes" },
-      { id: "constructor", title: "Constructor" },
-      { id: "strings-and-memory", title: "Strings & Memory Pool" },
-      { id: "oops-deep-dive", title: "OOPs Principles" }
+      note('java-introduction', 'Java Introduction', 'core-java'),
+      note('jvm-architecture', 'JVM Architecture & Memory', 'core-java'),
+      note('java-data-types', 'Java Data Types & Variables', 'core-java'),
+      note('java-control-flow', 'Control Flow & Loops', 'core-java'),
+      note('arrays', 'Arrays', 'core-java'),
+      note('classes-and-objects', 'Classes and Objects', 'core-java'),
+      note('constructor', 'Constructor', 'core-java'),
+      note('keywords-and-modifiers', 'Keywords and Modifiers', 'core-java'),
+      note('strings-and-memory', 'Strings & Memory Pool', 'core-java'),
+      note('oops-deep-dive', 'OOPs Principles', 'core-java'),
+      note('interfaces-and-abstract-classes', 'Interfaces and Abstract Classes', 'core-java')
     ]
   },
   {
-    category: "Java Collections",
+    category: 'Java Collections',
     notes: [
-      { id: "collections-framework", title: "Collections Framework Overview" },
-      { id: "list-implementations", title: "List Implementations" },
-      { id: "set-implementations", title: "Set Implementations" },
-      { id: "map-implementations", title: "Map Implementations" },
-      { id: "queue-implementations", title: "Queue Implementations" },
-      { id: "comparator-vs-comparable", title: "Comparator vs Comparable" },
-      { id: "concurrent-collections", title: "Concurrent Collections" }
+      note('generics-and-type-erasure', 'Generics & Type Erasure', 'java-collections'),
+      note('collections-framework', 'Collections Framework Overview', 'java-collections'),
+      note('list-implementations', 'List Implementations', 'java-collections'),
+      note('set-implementations', 'Set Implementations', 'java-collections'),
+      note('map-implementations', 'Map Implementations', 'java-collections'),
+      note('queue-implementations', 'Queue Implementations', 'java-collections'),
+      note('comparator-vs-comparable', 'Comparator vs Comparable', 'java-collections'),
+      note('concurrent-collections', 'Concurrent Collections', 'java-collections'),
+      note('stream-api', 'Stream API', 'java-collections')
     ]
   },
   {
-    category: "Multithreading & Concurrency",
+    category: 'Multithreading & Concurrency',
     notes: [
-      { id: "threading-basics", title: "Threading Basics" },
-      { id: "synchronization", title: "Synchronization" },
-      { id: "locks-and-latches", title: "Locks & Latches" },
-      { id: "executors-framework", title: "Executors Framework" },
-      { id: "virtual-threading", title: "Virtual Threading" }
+      note('threading-basics', 'Threading Basics', 'multithreading-concurrency'),
+      note('synchronization', 'Synchronization', 'multithreading-concurrency'),
+      note('locks-and-latches', 'Locks & Latches', 'multithreading-concurrency'),
+      note('executors-framework', 'Executors Framework', 'multithreading-concurrency'),
+      note('virtual-threading', 'Virtual Threading', 'multithreading-concurrency')
     ]
   },
   {
-    category: "Exception Handling & Logging",
+    category: 'Exception Handling & Logging',
     notes: [
-      { id: "exception-handling", title: "Exception Handling" },
-      { id: "logging-frameworks", title: "Logging Frameworks" }
+      note('exception-handling', 'Exception Handling', 'exception-handling-logging'),
+      note('logging-frameworks', 'Logging Frameworks', 'exception-handling-logging')
     ]
   },
   {
-    category: "Java version Features",
+    category: 'Advanced Java',
     notes: [
-      { id: "java-8-features", title: "Java 8 Features" },
-      { id: "java-9-modules", title: "Java 9 Modules" },
-      { id: "java-11-lts", title: "Java 11 LTS" },
-      { id: "java-17-features", title: "Java 17 Features" },
-      { id: "java-21-features", title: "Java 21 Features" }
+      note('jdbc-architecture', 'JDBC & Connection Pooling', 'advanced-java'),
+      note('servlets-and-jsp', 'Servlets & Web Lifecycle', 'advanced-java'),
+      note('hibernate-jpa', 'Hibernate & JPA', 'advanced-java')
     ]
   },
   {
-    category: "Advanced Java",
+    category: 'Java Version Features',
     notes: [
-      { id: "jdbc-architecture", title: "JDBC & Connection Pooling" },
-      { id: "servlets-and-jsp", title: "Servlets & Web Lifecycle" },
-      { id: "hibernate-jpa", title: "Hibernate & JPA" }
+      note('java-8-features', 'Java 8 (LTS)', 'java-version-features'),
+      note('java-9-modules', 'Java 9', 'java-version-features'),
+      note('java-11-lts', 'Java 11 (LTS)', 'java-version-features'),
+      note('java-17-features', 'Java 17 (LTS)', 'java-version-features'),
+      note('java-21-features', 'Java 21 (LTS)', 'java-version-features'),
+      note('java-25-features', 'Java 25 (LTS)', 'java-version-features')
     ]
   },
   {
-    category: "Spring Ecosystem",
+    category: 'Spring Ecosystem',
     notes: [
-      { id: "spring-core", title: "Spring Core & IoC" },
-      { id: "spring-mvc", title: "Spring MVC Architecture" },
-      { id: "spring-boot", title: "Spring Boot Essentials" }
+      note('spring-core', 'Spring Core & IoC', 'spring-ecosystem'),
+      note('spring-mvc', 'Spring MVC Architecture', 'spring-ecosystem'),
+      note('spring-boot', 'Spring Boot Essentials', 'spring-ecosystem'),
+      note('spring-data-jpa', 'Spring Data JPA', 'spring-ecosystem'),
+      note('spring-security', 'Spring Security', 'spring-ecosystem'),
+      note('spring-cloud', 'Spring Cloud', 'spring-ecosystem')
     ]
   },
   {
-    category: "Distributed Systems",
+    category: 'Distributed Systems',
     notes: [
-      { id: "kafka-event-driven", title: "Kafka & Event-Driven Architecture" },
-      { id: "saga-pattern", title: "Saga Pattern" }
+      note('kafka-event-driven', 'Kafka & Event-Driven Architecture', 'distributed-systems'),
+      note('saga-pattern', 'Saga Pattern', 'distributed-systems'),
+      note('circuit-breaker-pattern', 'Circuit Breaker Pattern', 'distributed-systems'),
+      note('caching-strategies-and-redis', 'Caching Strategies & Redis', 'distributed-systems')
     ]
   },
   {
-    category: "Integrations",
+    category: 'Integrations',
     notes: [
-      { id: "stripe-webhooks", title: "Stripe Webhooks" }
+      note('stripe-webhooks', 'Stripe Webhooks', 'integrations')
     ]
   }
 ];

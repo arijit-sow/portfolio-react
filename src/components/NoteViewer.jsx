@@ -5,6 +5,8 @@ import remarkGfm from 'remark-gfm';
 import mermaid from 'mermaid';
 import { noteCategories } from './notesData.js';
 
+const notes = noteCategories.flatMap((group) => group.notes);
+
 function MermaidDiagram({ chart }) {
   const [svg, setSvg] = useState('');
   const [error, setError] = useState('');
@@ -47,14 +49,13 @@ function MermaidDiagram({ chart }) {
 export default function NoteViewer() {
   const { topicId } = useParams();
   const [note, setNote] = useState({ topicId: null, content: '', loading: true });
-  const notes = noteCategories.flatMap((group) => group.notes);
   const currentIndex = notes.findIndex((item) => item.id === (topicId || 'jvm-architecture'));
   const previousNote = currentIndex > 0 ? notes[currentIndex - 1] : null;
   const nextNote = currentIndex >= 0 && currentIndex < notes.length - 1 ? notes[currentIndex + 1] : null;
 
   useEffect(() => {
-    const fileName = topicId ? `${topicId}.md` : 'jvm-architecture.md';
-    const filePath = `/notes-content/${fileName}`;
+    const selectedNote = notes.find((item) => item.id === (topicId || 'jvm-architecture'));
+    const filePath = `/notes-content/${selectedNote?.file || 'missing-note.md'}`;
     let isCurrentRequest = true;
 
     fetch(filePath)
