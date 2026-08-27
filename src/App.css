@@ -80,28 +80,22 @@ body.light-theme {
 }
 
 .notes-sidebar-resizer {
-    position: absolute;
+    position: fixed;
     top: 0;
-    right: -4px;
+    left: var(--notes-sidebar-width);
     width: 8px;
-    height: 100%;
+    height: 100vh;
     cursor: col-resize;
     touch-action: none;
     z-index: 2;
 }
 
+.notes-layout.topics-collapsed .notes-sidebar-resizer {
+    left: 76px;
+}
+
 .notes-sidebar-resizer::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 3px;
-    width: 2px;
-    height: 40px;
-    border-radius: 2px;
-    background: var(--border);
-    opacity: 0;
-    transform: translateY(-50%);
-    transition: opacity var(--transition), background-color var(--transition);
+    display: none;
 }
 
 .notes-sidebar:hover .notes-sidebar-resizer::after,
