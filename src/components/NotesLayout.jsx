@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { noteCategories } from './notesData.js';
+import GlobalNoteSearch from './GlobalNoteSearch.jsx';
 
 export default function NotesLayout() {
   const location = useLocation();
@@ -110,6 +111,11 @@ export default function NotesLayout() {
       className={`notes-layout ${isTopicsOpen ? 'topics-open' : 'topics-collapsed'}`}
       style={{ '--notes-sidebar-width': `${sidebarWidth}px` }}
     >
+      <header className="notes-topbar">
+        <Link to="/" className="notes-home-link">arijit.</Link>
+        <GlobalNoteSearch />
+      </header>
+      <div className="notes-layout-body">
       {isTopicsOpen && (
         <button
           type="button"
@@ -124,7 +130,6 @@ export default function NotesLayout() {
       >
         <div className="notes-sidebar-header">
           <div>
-            <Link to="/" className="notes-back-link">&larr; Back to Portfolio</Link>
             <h1>Technical Notes</h1>
           </div>
           <button
@@ -135,7 +140,19 @@ export default function NotesLayout() {
             aria-controls="notes-topic-drawer"
             aria-label={isTopicsOpen ? 'Collapse topics' : 'Expand topics'}
           >
-            <span aria-hidden="true">{isTopicsOpen ? '−' : '+'}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+              />
+            </svg>
           </button>
         </div>
 
@@ -173,6 +190,7 @@ export default function NotesLayout() {
       <main className="notes-content">
         <Outlet />
       </main>
+      </div>
 
       <button
         type="button"
