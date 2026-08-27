@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "generate-index": "node generate-index.js",
+    "build": "npm run generate-index && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "fuse.js": "^7.5.0",
     "mermaid": "^11.17.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
