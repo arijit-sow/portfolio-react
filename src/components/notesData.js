@@ -75,6 +75,7 @@ export const noteCategories = [
     category: 'Spring Ecosystem',
     notes: [
       note('spring-core', 'Spring Core & IoC', 'spring-ecosystem'),
+      note('spring-aop', 'Spring AOP', 'spring-ecosystem'),
       note('spring-mvc', 'Spring MVC Architecture', 'spring-ecosystem'),
       note('spring-boot', 'Spring Boot Essentials', 'spring-ecosystem'),
       note('spring-data-jpa', 'Spring Data JPA', 'spring-ecosystem'),
