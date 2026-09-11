@@ -80,7 +80,8 @@ export const noteCategories = [
       note('spring-boot', 'Spring Boot Essentials', 'spring-ecosystem'),
       note('spring-data-jpa', 'Spring Data JPA', 'spring-ecosystem'),
       note('spring-security', 'Spring Security', 'spring-ecosystem'),
-      note('spring-cloud', 'Spring Cloud', 'spring-ecosystem')
+      note('spring-cloud', 'Spring Cloud', 'spring-ecosystem'),
+      note('jwt-json-web-tokens', 'JWT & JSON Web Tokens', 'spring-ecosystem')
     ]
   },
   {

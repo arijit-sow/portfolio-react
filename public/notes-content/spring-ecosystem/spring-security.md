@@ -20,14 +20,14 @@ Without a dedicated security framework, every application would need to hand-rol
 Incoming HTTP Request
         │
         ▼
-┌───────────────────────────────────────────────────────┐
-│              Spring Security's Filter Chain            │
-│  (a SEPARATE chain of filters, distinct from your own  │
-│   application filters, registered as ONE servlet filter │
-│   — DelegatingFilterProxy / FilterChainProxy — that     │
-│   internally delegates through many security filters)  │
+┌──────────────────────────────────────────────────────────┐
+│              Spring Security's Filter Chain              │
+│  (a SEPARATE chain of filters, distinct from your own    │
+│   application filters, registered as ONE servlet filter  │
+│   — DelegatingFilterProxy / FilterChainProxy — that      │
+│   internally delegates through many security filters)    │
 │                                                          │
-│   SecurityContextPersistenceFilter                      │
+│   SecurityContextPersistenceFilter                       │
 │         │                                                │
 │   CsrfFilter                                             │
 │         │                                                │
@@ -36,9 +36,9 @@ Incoming HTTP Request
 │   ExceptionTranslationFilter                             │
 │         │                                                │
 │   FilterSecurityInterceptor / AuthorizationFilter        │
-└───────────────────────────────────────────────────────┘
-        │
-        ▼
+└──────────────────────────────────────────────────────────┘
+          │
+          ▼
    DispatcherServlet → your controllers
 ```
 
